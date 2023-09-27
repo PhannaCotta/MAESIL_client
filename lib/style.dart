@@ -23,12 +23,12 @@ class MaesilText { //텍스트 스타일 정의
 class MaesilTheme { //매실이 앱 기본 테마
   static final ThemeData light = ThemeData( //기본 테마
     textTheme: MaesilText.msLightDefault,
-
+    fontFamily: 'PoorStory',
     appBarTheme: AppBarTheme( //앱바 테마
       backgroundColor: Colors.white,//앱바 배경색
       elevation: 0, //shadow? 박스다 떠있는 느낌주는 속성
       centerTitle: true,
-      titleTextStyle: TextStyle(color: MaesilColor.msBlue),
+      titleTextStyle: TextStyle(color: MaesilColor.msBlue, fontFamily: 'PoorStory'),
       actionsIconTheme: IconThemeData(color: MaesilColor.msBlue),
       iconTheme: IconThemeData(color: MaesilColor.msBlue),
     ),
@@ -45,7 +45,7 @@ class MaesilTheme { //매실이 앱 기본 테마
 
     listTileTheme: ListTileThemeData(
       textColor: MaesilColor.msBlack,
-      titleTextStyle: TextStyle(fontSize: 16),
+      titleTextStyle: TextStyle(fontSize: 16, fontFamily: 'PoorStory'),
       selectedTileColor: MaesilColor.msBlue,
       selectedColor: MaesilColor.msLightBlue,
     ),

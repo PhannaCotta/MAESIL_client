@@ -28,6 +28,10 @@ class Diary extends StatelessWidget {
               //앱 컨텐츠
               margin: EdgeInsets.fromLTRB(12, 25, 12, 0),
               color: MaesilColor.msLightBlue,
+              child: Text('매실이가 쓴 일기 모가지가 너무 아프다 폼롤러로 뒷목을 조지고 나왔어야했는데 못했다. 고개를 숙이면 모가지 아프다 내일 수영 어케가지 쨲',
+              style: TextStyle(
+                fontFamily: 'NanumPen', fontSize: 24.0
+              ))
             ),
             drawer: Container(
                 height: 605.0,

@@ -6,6 +6,7 @@ import 'record.dart';
 import 'accountbook.dart';
 import 'menstruation.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'style.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp())); // 요일 한국어로 바꾸기(Sun, Mon, ... => 일, 월, ...)
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/calendar',
       routes: {
-        '/calendar': (context) => MyHomePage(title: '매일, 실속있는'),
+        '/calendar': (context) => MyHomePage(title: '매실'),
         '/todolist': (context) => ToDoList(),
         '/diary': (context) => Diary(),
         '/record': (context) => Record(),
@@ -30,10 +31,9 @@ class MyApp extends StatelessWidget {
         //'/settings': (context) => MyHomePage(title: '매일, 실속있는'),
       },
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: MaesilTheme.light,
+      //darkTheme: MaesilTheme.dark,
+      //themeMode: theme, //TODO: 추후 theme 상태 관리하는 객체? 추가해야함,
       home: const MyHomePage(title: 'Maesil'),
     );
   }
@@ -56,14 +56,30 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   DateTime focusedDay = DateTime.now();
 
-  Color ggongjiBlue = Color.fromARGB(255, 18, 115, 180);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      appBar: PreferredSize ( //앱바, 제목이 바뀌어야함
+        preferredSize: const Size.fromHeight(50.0),
+        child: AppBar(
+          title: Text(widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.calendar_today), // 달력 아이콘
+              onPressed: () {
+                // 아이콘 버튼 실행
+                print('필터링 아이콘 눌림');
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.filter_alt_rounded), // 필터 아이콘
+              onPressed: () {
+                // 아이콘 버튼 실행
+                print('필터링 아이콘 눌림');
+              },
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: Column(
@@ -99,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   formatButtonVisible: false, // 2 weeks 버튼 뜨는 거 안 보이게(무슨 기능인지 모르겠음)
                   titleCentered: true, // 'n월' 글자 가운데로
                   //titleTextFormatter: , // title 의 날짜 형태 (ex : titleTextFormatter: (date, locale) => DateFormat.yM(locale).format(date),)
-                  titleTextStyle: TextStyle(fontSize: 30.0),
+                  titleTextStyle: TextStyle(fontSize: 16.0),
                 ),
                 // 각 날짜 셀에 대한 스타일을 지정하는 부분
                 calendarBuilders: CalendarBuilders(
@@ -111,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       // 테두리에 네모 모양으로 설정
                       decoration: BoxDecoration(
                         color: Colors.transparent, // 사용자가 선택한 날짜의 배경 색상 (네모 안, 투명으로 설정)
-                        border: Border.all(color: Colors.red, width: 0.5), // 네모 테두리 스타일
+                        border: Border.all(color: MaesilColor.msRed, width: 0.5), // 네모 테두리 스타일
                         borderRadius: BorderRadius.circular(5.0), // 코너 둥근 정도
                       ),
                       child: Text(
@@ -127,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       alignment: Alignment.topLeft,
                       decoration: BoxDecoration(
                         color: Colors.transparent, // 사용자가 선택한 날짜의 배경 색상 (네모 안, 투명으로 설정)
-                        border: Border.all(color: ggongjiBlue, width: 0.5), // 네모 테두리 스타일
+                        border: Border.all(color: MaesilColor.msBlue, width: 0.5), // 네모 테두리 스타일
                         borderRadius: BorderRadius.circular(5.0), // 코너 둥근 정도
                       ),
                       child: Text(
@@ -145,57 +161,57 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
 
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('매실'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-            ),
-            ListTile(
-              title: Text('캘린더'),
-              onTap: () {
-                Navigator.pushNamed(context, '/calendar');
-              },
-            ),
-            ListTile(
-              title: Text('투두리스트'),
-              onTap: () {
-                Navigator.pushNamed(context, '/todolist');
-              },
-            ), ListTile(
-              title: Text('일기'),
-              onTap: () {
-                Navigator.pushNamed(context, '/diary');
-              },
-            ), ListTile(
-              title: Text('기록'),
-              onTap: () {
-                Navigator.pushNamed(context, '/record');
-              },
-            ), ListTile(
-              title: Text('가계부'),
-              onTap: () {
-                Navigator.pushNamed(context, '/accountbook');
-              },
-            ), ListTile(
-              title: Text('월경주기관리'),
-              onTap: () {
-                Navigator.pushNamed(context, '/menstruation');
-              },
-            ),
-            ListTile(
-              title: Text('설정'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
-          ]
+        drawer: Container(
+            height: 605.0,
+            child: Drawer(
+                child: ListView(
+                    children: <Widget>[
+                      DrawerHeader(child: Text('매실',
+                          style: TextStyle(
+                            fontSize: 24,
+                          ))),
+                      ListTile(
+                        title: Text('캘린더'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/cale');
+                        },
+                      ),
+                      ListTile(
+                        title: Text('투두리스트'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/todolist');
+                        },
+                      ), ListTile(
+                        title: Text('일기'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/diary');
+                        },
+                      ), ListTile(
+                        title: Text('기록'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/record');
+                        },
+                      ), ListTile(
+                        title: Text('가계부'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/accountbook');
+                        },
+                      ), ListTile(
+                        title: Text('월경주기관리'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/menstruation');
+                        },
+                      ),
+                      ListTile(
+                        title: Text('설정'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/settings');
+                        },
+                      ),
+                    ]
+                )
+            )
         )
-      )
     );
   }
 }
